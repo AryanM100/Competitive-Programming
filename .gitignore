@@ -1,0 +1,10 @@
+.vscode/
+*
+!*/
+!*.cpp
+!.gitignore
+!README.md
+Things
+Book.pdf
+Guide.pdf
+C++ Learnt
