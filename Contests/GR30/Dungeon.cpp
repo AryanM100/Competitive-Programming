@@ -3,6 +3,18 @@
 using namespace std;
 #define ll long long
 
+int giveMax(int a[], int n){
+  int x = 0; int d = 0;
+  for(int j = 0; j < n; j++){
+    if(a[j] > x){
+      x = a[j];
+      d = j;
+    }
+  }
+
+  return d;
+}
+
 int main(){
   
   int t;
@@ -12,14 +24,9 @@ int main(){
   for(int i = 0; i < t; i++){
     int n, m;
     cin >> n >> m;
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    int d = 0;
-    int e = 0;
-    int f = 0;
-    int count = 0;
-    int run = 2;
+    int x = 0; int y = 0; int z = 0; int d = 0; int e = 0; int f = 0; int g = 0;
+    int cnt = 0;
+    int run = m;
 
     int a[n];
     int b[m];
@@ -30,47 +37,47 @@ int main(){
     for(int j = 0; j < m; j++) cin >> c[j];
 
     while(run){
-      for(int j = 0; j < n; j++){
-        if(a[j] > x){
-          x = a[j];
-          d = j;
-        }
-      }
+      d = giveMax(a, n);
+      x = a[d];
+
       for(int j = 0; j < m; j++){
-        if(b[j] > y && b[j] <= x){
-          y = b[j];
-          e = j;
-        }
-        if(c[j] > z){
-          z = c[j];
-          f = j;
+        if(c[j] != 0 && x >= b[j]){
+          a[d] = max(a[d], c[j]);
+          b[j] = 0;
+          c[j] = 0;
+          cnt++;
         }
       }
-        if(z != 0){
-          a[d] = max(a[d], c[f]);
-          b[f] = 0;
-          c[f] = 0;
-          count++;
+
+      for(int j = 0; j < m; j++){
+        if(c[j] == 0 && x >= b[j]){
+          for(int k = 0; k < m; k++){
+            if(c[k] == 0) g++;
+          }
+          if(g == m){
+            a[d] = 0;
+            b[j] = 0;
+            cnt++;
+          }
+          else continue;
         }
-        else{
-          a[d] = max(a[d], c[e]);
-          b[e] = 0;
-          c[e] = 0;
-          count++;
-        }
+
+        d = giveMax(a, n);
+        x = a[d];
+
+        cout << d << x << endl;
+      }
+
+      for(int k = 0; k < n; k++) cout << a[k] << " ";
+      cout << endl;
+      for(int k = 0; k < m; k++) cout << b[k] << " ";
+      cout << endl;
+      for(int k = 0; k < m; k++) cout << c[k] << " ";
+      cout << endl;
       run--;
-
-      cout << d << " " << e << " " << f << endl;
-
-    cout << count << endl;
-    for(int j = 0; j < n; j++) cout << a[j] << " ";
-    cout << endl;
-    for(int j = 0; j < m; j++){
-      cout << b[j] << " ";
     }
-    cout << endl;
-    for(int j = 0; j < m; j++) cout << c[j] << " ";
-    }
+
+    output += to_string(cnt) + "\n";
   }
   
   cout << output;
